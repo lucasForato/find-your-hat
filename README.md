@@ -1,5 +1,5 @@
 # 🎩 Find Your Hat [Codecademy]
-This is a simple project from Codecademy. The goal of the project is getting used to working with classes and Node.
+This is a simple project from [Codecademy](https://www.codecademy.com/). The goal of the project is getting used to working with classes and Node.
 ## Technologies
 - Node.js
 ## How to play
