@@ -1,4 +1,4 @@
-const prompt = require('prompt-sync')({sigint: true});
+const prompt = require('prompt-sync')();
 
 const hat = '^';
 const hole = 'O';
@@ -8,12 +8,22 @@ const pathCharacter = '*';
 class Field {
     constructor(field) {
         this._field = field;
+        this._player = true;
     }
 
     printField(){
         const arr = this._field;
         arr.forEach(element => console.log(element.join('')));
     }
+
+    get player(){
+        return this._player;
+    }
+
+    get field(){
+        return this._field;
+    }
+
     locatePlayer() {
         const arr = this._field;
         const returnedArr = [];
@@ -27,10 +37,10 @@ class Field {
         return returnedArr;
     }
 
+    //moves player up
     moveUp(){
         const player = this.locatePlayer();
-
-        //code when he loses
+        //check collision
         if(player[0] === 0) {
             return;
         }
@@ -39,9 +49,11 @@ class Field {
         this._field[player[0]][player[1]] = pathCharacter;
     }
 
+    //moves player down
     moveDown(){
         const player = this.locatePlayer();
-        if(player[0] === 0) {
+        //check collision
+        if(player[0] === this.field.length - 1) {
             return;
         }
         this._field[player[0]][player[1]] = fieldCharacter;
@@ -49,9 +61,11 @@ class Field {
         this._field[player[0]][player[1]] = pathCharacter;
     }
 
+    //moves player to the left
     moveLeft(){
         const player = this.locatePlayer();
-        if(player[0] === 0) {
+        //check collision
+        if(player[1] === 0) {
             return;
         }
         this._field[player[0]][player[1]] = fieldCharacter;
@@ -59,9 +73,11 @@ class Field {
         this._field[player[0]][player[1]] = pathCharacter;
     }
 
+    //moves player to the right
     moveRight(){
         const player = this.locatePlayer();
-        if(player[0] === 0) {
+        //check collision
+        if(player[1] === this.field[player[1]].length - 1) {
             return;
         }
         this._field[player[0]][player[1]] = fieldCharacter;
@@ -80,12 +96,25 @@ const myField = new Field([
   [hole, fieldCharacter, hole, fieldCharacter, hat]
 ]);
 
-myField.printField();
-myField.moveLeft();
-myField.printField()
-myField.moveRight();
-myField.printField()
-myField.moveUp();
-myField.printField()
-myField.moveDown();
-myField.printField()
+
+console.log('Welcome to the game! The directions are [ w | a | s | d ]')
+
+
+const moveSomewhere = (direction) => {
+    if(direction === 'w') {
+        myField.moveUp();
+    } else if(direction === 'a') {
+        myField.moveLeft();
+    } else if(direction === 's') {
+        myField.moveDown();
+    } else if(direction === 'd') {
+        myField.moveRight();
+    }
+}
+
+
+
+while(myField.player) {
+    myField.printField();
+    moveSomewhere(prompt('what direction should I go? '));
+}
